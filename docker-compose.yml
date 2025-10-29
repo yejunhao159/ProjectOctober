@@ -19,7 +19,15 @@ services:
       - USE_EXTERNAL_AUTH=false
       - JWT_SECRET=${JWT_SECRET:-your-jwt-secret-change-in-production}
       - API_KEY=${API_KEY:-}
+      # Claude API 配置（必需）
+      - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ANTHROPIC_AUTH_TOKEN=${ANTHROPIC_AUTH_TOKEN}
     volumes:
+      # Claude 全局配置文件（用户 home 目录）
+      - ./claude.md:/home/node/claude.md:ro
+      # 提示词目录（只挂载 prompts 文件夹）
+      - ./prompts:/project/prompts:ro
       # Claude 配置和 sessions 持久化
       - claude-data:/opt/claude-config
       # SSH 密钥（用于 Git 操作）
