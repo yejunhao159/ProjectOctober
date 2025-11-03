@@ -5,7 +5,7 @@
 
 # Use pre-built runtime as base
 ARG RUNTIME_VERSION=latest
-FROM deepracticexs/agent-runtime:${RUNTIME_VERSION} AS base
+FROM ${RUNTIME_VERSION} AS base
 
 #
 # Stage 1: Build Frontend
