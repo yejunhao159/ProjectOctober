@@ -74,6 +74,10 @@ ENV NODE_ENV=production \
 # - ANTHROPIC_API_KEY (required)
 # - ANTHROPIC_BASE_URL (optional)
 
+# Create required directories with proper permissions
+RUN mkdir -p /project /home/node/.claude/projects/-project && \
+    chown -R node:node /project /home/node/.claude
+
 # Switch to non-root user
 USER node
 
