@@ -35,6 +35,37 @@ RUN mkdir -p /etc/apt/keyrings && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
 
+# Install Chrome dependencies for web scraping
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      # Chrome dependencies
+      libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 \
+      libcups2 libdrm2 libxkbcommon0 libxcomposite1 \
+      libxdamage1 libxfixes3 libxrandr2 libgbm1 \
+      libpango-1.0-0 libcairo2 libasound2 libatspi2.0-0 \
+      libxshmfence1 libglib2.0-0 libnss3 libx11-6 \
+      libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
+      libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 \
+      libxrender1 libxss1 libxtst6 \
+      # Chinese fonts support
+      fonts-wqy-zenhei fonts-wqy-microhei \
+      fonts-noto-cjk fonts-noto-cjk-extra \
+      fonts-liberation fonts-ipafont-gothic fonts-thai-tlwg fonts-kacst \
+      # Additional tools
+      xdg-utils && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download and install Google Chrome
+RUN wget -q -O /tmp/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    apt-get update && \
+    apt-get install -y /tmp/google-chrome-stable_current_amd64.deb && \
+    rm /tmp/google-chrome-stable_current_amd64.deb && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set Puppeteer environment variables
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+
 # Install pnpm globally
 RUN npm install -g pnpm@10.15.1
 
@@ -43,7 +74,8 @@ RUN node --version && \
     npm --version && \
     pnpm --version && \
     git --version && \
-    python3 --version
+    python3 --version && \
+    google-chrome --version
 
 # Create node user (UID=1000 for host compatibility)
 RUN useradd -u 1000 -U -m -s /bin/bash node && \
