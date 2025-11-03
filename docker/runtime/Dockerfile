@@ -69,6 +69,12 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 # Install pnpm globally
 RUN npm install -g pnpm@10.15.1
 
+# Install Claude Code CLI globally
+RUN npm install -g @anthropic-ai/claude-code
+
+# Create symlink for claude-code command (SDK expects this name)
+RUN ln -s /usr/bin/claude /usr/bin/claude-code
+
 # Verify installations
 RUN node --version && \
     npm --version && \

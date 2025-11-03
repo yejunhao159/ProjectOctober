@@ -53,6 +53,9 @@ COPY services/agent-service ./services/agent-service
 #
 FROM base AS production
 
+# Switch to root to create directories
+USER root
+
 WORKDIR /app
 
 # Copy node_modules from backend deps (pnpm workspace root)
@@ -64,6 +67,10 @@ COPY --from=backend-deps --chown=node:node /build/services/agent-service ./servi
 # Copy frontend dist from builder
 COPY --from=frontend-builder --chown=node:node /build/apps/agent-ui/dist ./services/agent-service/dist
 
+# Create required directories with proper permissions
+RUN mkdir -p /project /home/node/.claude/projects/-project && \
+    chown -R node:node /project /home/node/.claude
+
 # Environment variables
 ENV NODE_ENV=production \
     PORT=5200 \
@@ -73,10 +80,6 @@ ENV NODE_ENV=production \
 # Runtime variables (must be provided):
 # - ANTHROPIC_API_KEY (required)
 # - ANTHROPIC_BASE_URL (optional)
-
-# Create required directories with proper permissions
-RUN mkdir -p /project /home/node/.claude/projects/-project && \
-    chown -R node:node /project /home/node/.claude
 
 # Switch to non-root user
 USER node
