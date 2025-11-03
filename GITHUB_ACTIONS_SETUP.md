@@ -2,7 +2,8 @@
 
 ## 已完成的配置
 
-已创建 GitHub Actions 工作流文件：`.github/workflows/build-and-push.yml`
+✅ 已创建 GitHub Actions 工作流文件：`.github/workflows/build-and-push.yml`
+✅ 已配置阿里云容器镜像服务凭证
 
 该工作流会自动：
 1. 构建 Runtime 基础镜像
@@ -11,9 +12,9 @@
 
 ## 需要配置的步骤
 
-### 1. 设置 GitHub Secrets
+### 1. 设置 GitHub Secrets ⚠️ **必须先完成此步骤**
 
-前往你的 GitHub 仓库：https://github.com/yejunhao159/ai-/settings/secrets/actions
+前往你的 GitHub 仓库：https://github.com/yejunhao159/ProjectOctober/settings/secrets/actions
 
 点击 "New repository secret"，添加以下两个密钥：
 
@@ -22,37 +23,18 @@
 | `ALIYUN_USERNAME` | `shuhaidata` | 阿里云容器镜像服务用户名 |
 | `ALIYUN_PASSWORD` | `你的密码` | 阿里云容器镜像服务密码 |
 
-### 2. 推送代码到 GitHub
+### 2. 推送代码到 GitHub ✅ **已完成**
 
-```bash
-cd /home/yejh0725/小红书智能体测试/Agent
-
-# 初始化 git（如果还没有）
-git init
-
-# 添加远程仓库
-git remote add origin https://github.com/yejunhao159/ai-.git
-
-# 添加所有文件
-git add .
-
-# 提交
-git commit -m "Add GitHub Actions workflow for Docker build and push"
-
-# 推送到 GitHub
-git push -u origin main
-# 如果默认分支是 master，使用：git push -u origin master
-```
+代码已成功推送到：https://github.com/yejunhao159/ProjectOctober
 
 ### 3. 触发构建
 
-推送代码后，GitHub Actions 会自动触发构建。你可以在这里查看进度：
-https://github.com/yejunhao159/ai-/actions
+设置好 Secrets 后，可以在这里手动触发构建：
+https://github.com/yejunhao159/ProjectOctober/actions
 
-### 4. 手动触发（可选）
+### 4. 手动触发步骤
 
-也可以在 Actions 页面手动触发：
-1. 进入 https://github.com/yejunhao159/ai-/actions
+1. 进入 https://github.com/yejunhao159/ProjectOctober/actions
 2. 选择 "Build and Push Docker Image"
 3. 点击 "Run workflow"
 
